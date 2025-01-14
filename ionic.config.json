@@ -1,0 +1,7 @@
+{
+  "name": "twins-travells",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
