@@ -1,0 +1,38 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Nova Viagem</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <form [formGroup]="travelForm" (ngSubmit)="onSubmit()">
+    <ion-item>
+      <ion-label position="stacked">Descrição</ion-label>
+      <ion-input formControlName="description"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">Tipo</ion-label>
+      <ion-input formControlName="type"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">Estado</ion-label>
+      <ion-input formControlName="state"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">Data Início</ion-label>
+      <ion-datetime formControlName="startAt"></ion-datetime>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">Data Fim</ion-label>
+      <ion-datetime formControlName="endAt"></ion-datetime>
+    </ion-item>
+
+    <ion-button expand="full" type="submit" [disabled]="travelForm.invalid">
+      Salvar
+    </ion-button>
+  </form>
+</ion-content>
