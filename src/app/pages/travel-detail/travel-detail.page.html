@@ -1,0 +1,87 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Detalhes da Viagem</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-list>  
+    <ion-item *ngFor="let location of locations">
+      <ion-label>
+        <h2>{{ location.description }}</h2>
+        <p>Tipo: {{ location.type }}</p>
+        <p>Estado: {{ location.state }}</p>
+        <p *ngIf="location.map">Mapa: {{ location.map }}</p>
+        <p *ngIf="location.startAt">Início: {{ location.startAt | date:'short' }}</p>
+        <p *ngIf="location.endAt">Fim: {{ location.endAt | date:'short' }}</p>
+      </ion-label>
+      <ion-button *ngIf="location.id" fill="clear" slot="end" (click)="openAddLocationComment(location.id); $event.stopPropagation(); $event.preventDefault();">
+          <span class="material-symbols-outlined">add_notes</span>
+        </ion-button>
+    </ion-item>
+  </ion-list>
+
+
+  <ion-item-divider>
+    <ion-label>Adicionar Novo Local</ion-label>
+  </ion-item-divider>
+
+  <form (ngSubmit)="addLocation()">
+
+    <ion-item>
+      <ion-label position="floating">Descrição </ion-label>
+      <ion-input [(ngModel)]="newLocation.description" name="description" required></ion-input>
+    </ion-item>
+
+
+
+    <ion-item>
+      <ion-label position="floating">Mapa</ion-label>
+      <ion-input [(ngModel)]="newLocation.map" name="map"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Início</ion-label>
+      <ion-datetime
+        displayFormat="DD/MM/YYYY HH:mm"
+        pickerFormat="DD MM YYYY HH mm"
+        [(ngModel)]="newLocation.startAt"
+        name="startAt"
+        cancelText="Cancelar"
+        doneText="Ok">
+      </ion-datetime>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Fim</ion-label>
+      <ion-datetime
+        displayFormat="DD/MM/YYYY HH:mm"
+        pickerFormat="DD MM YYYY HH mm"
+        [(ngModel)]="newLocation.endAt"
+        name="endAt"
+        cancelText="Cancelar"
+        doneText="Ok">
+      </ion-datetime>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Prop1</ion-label>
+      <ion-input [(ngModel)]="newLocation.prop1" name="prop1"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Prop2</ion-label>
+      <ion-input [(ngModel)]="newLocation.prop2" name="prop2"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Prop3</ion-label>
+      <ion-input [(ngModel)]="newLocation.prop3" name="prop3"></ion-input>
+    </ion-item>
+
+    <ion-button expand="block" type="submit" style="margin-top: 20px;">
+      Adicionar Local
+    </ion-button>
+
+  </form>
+</ion-content>

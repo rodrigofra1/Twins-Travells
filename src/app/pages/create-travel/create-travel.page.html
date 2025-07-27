@@ -1,38 +1,69 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Nova Viagem</ion-title>
+    <ion-title class="ion-text-center">Nova Viagem</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
-  <form [formGroup]="travelForm" (ngSubmit)="onSubmit()">
+  <ion-list>
     <ion-item>
       <ion-label position="stacked">Descrição</ion-label>
-      <ion-input formControlName="description"></ion-input>
+      <ion-input [(ngModel)]="travel.description" required></ion-input>
     </ion-item>
 
     <ion-item>
-      <ion-label position="stacked">Tipo</ion-label>
-      <ion-input formControlName="type"></ion-input>
+      <ion-label>Prioridade</ion-label>
+      <ion-select name="type" [(ngModel)]="travel.type" required>
+        <ion-select-option value="high">Alta</ion-select-option>
+        <ion-select-option value="normal">Normal</ion-select-option>
+        <ion-select-option value="low">Baixa</ion-select-option>
+      </ion-select>
     </ion-item>
 
     <ion-item>
-      <ion-label position="stacked">Estado</ion-label>
-      <ion-input formControlName="state"></ion-input>
+      <ion-label>Estado</ion-label>
+      <ion-select name="state" [(ngModel)]="travel.state" required>
+        <ion-select-option value="to-do">To-Do</ion-select-option>
+        <ion-select-option value="done">Done</ion-select-option>
+      </ion-select>
     </ion-item>
 
     <ion-item>
-      <ion-label position="stacked">Data Início</ion-label>
-      <ion-datetime formControlName="startAt"></ion-datetime>
+      <ion-label position="stacked">Data de Início</ion-label>
+      <ion-datetime presentation="date" [(ngModel)]="travel.startAt"></ion-datetime>
     </ion-item>
 
     <ion-item>
-      <ion-label position="stacked">Data Fim</ion-label>
-      <ion-datetime formControlName="endAt"></ion-datetime>
+      <ion-label position="stacked">Data de Fim</ion-label>
+      <ion-datetime presentation="date" [(ngModel)]="travel.endAt"></ion-datetime>
     </ion-item>
 
-    <ion-button expand="full" type="submit" [disabled]="travelForm.invalid">
-      Salvar
-    </ion-button>
-  </form>
+    <ion-item>
+      <ion-label position="stacked">Criado por</ion-label>
+      <ion-input [(ngModel)]="travel.createdBy"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">Prop1</ion-label>
+      <ion-input [(ngModel)]="travel.prop1"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">Prop2</ion-label>
+      <ion-input [(ngModel)]="travel.prop2"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">Prop3</ion-label>
+      <ion-input [(ngModel)]="travel.prop3"></ion-input>
+    </ion-item>
+  </ion-list>
+
+
+
+
+  <ion-button expand="block" (click)="saveTravel()" class="ion-margin-top" color="primary">
+    Guardar Viagem
+  </ion-button>
 </ion-content>
+  

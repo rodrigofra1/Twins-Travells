@@ -1,0 +1,58 @@
+<ion-header>
+  <ion-toolbar color="dark">
+    <ion-title class="ion-text-center">TwinTravels</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-segment [(ngModel)]="selectedType" (ionChange)="selectType(selectedType)" value="to-do" style="padding: 12px;">
+    <ion-segment-button value="to-do">
+      To Do
+    </ion-segment-button>
+    <ion-segment-button value="done">
+      Done
+    </ion-segment-button>
+  </ion-segment>
+
+  <ion-item>
+    <ion-select [(ngModel)]="priorityOrder" (ionChange)="orderByPriority()">
+      <ion-select-option value="none">Normal</ion-select-option>
+      <ion-select-option value="desc">Alta</ion-select-option>
+      <ion-select-option value="asc">Baixa</ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-list>
+    <ion-item *ngFor="let travel of filteredTravels"
+              [routerLink]="['/travel-detail', travel.id]"
+              [ngClass]="getPriorityColor(travel.type)">
+
+      <ion-label>
+        <h2>{{ travel.description }}</h2>
+        <p>{{ travel.startAt | date }} - {{ travel.endAt | date }}</p>
+      </ion-label>
+
+      <ion-button fill="clear" slot="end" (click)="openAddComment(travel.id!); $event.stopPropagation(); $event.preventDefault();">
+        <span class="material-symbols-outlined">add_notes</span>
+      </ion-button>
+
+      <ion-button fill="clear" slot="end" color="danger" (click)="deleteTravel(travel.id!); $event.stopPropagation(); $event.preventDefault();">
+        <span class="material-symbols-outlined">delete</span>
+      </ion-button>
+
+
+    </ion-item>
+  </ion-list>
+
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button routerLink="/create-travel" style="--background: blue;">
+      <span class="material-symbols-outlined" style="color: white;">add</span>
+    </ion-fab-button>
+  </ion-fab>
+
+
+
+
+</ion-content>

@@ -1,59 +1,58 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { LoadingController, ToastController, AlertController } from '@ionic/angular';
-import { HttpClient } from '@angular/common/http';
+import { CommonModule } from '@angular/common';
+import { IonicModule, LoadingController, ToastController, AlertController } from '@ionic/angular';
+import { RouterModule, Router } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { TravelService, Travel } from 'src/app/services/travel.service';
 
 @Component({
   selector: 'app-create-travel',
+  standalone: true,
+  imports: [CommonModule, IonicModule, FormsModule, RouterModule],
   templateUrl: './create-travel.page.html',
   styleUrls: ['./create-travel.page.scss'],
 })
 export class CreateTravelPage {
-  travelForm: FormGroup;
-  apiUrl = 'https://mobile-api-one.vercel.app/travels';
+  travel: Travel = {
+  description: '',
+  type: 'normal',     
+  state: 'to-do',   
+  startAt: null,
+  endAt: null,
+  createdBy: '',
+  prop1: '',
+  prop2: '',
+  prop3: '',
+};
+
 
   constructor(
-    private fb: FormBuilder,
-    private http: HttpClient,
+    private travelService: TravelService,
     private loadingCtrl: LoadingController,
     private toastCtrl: ToastController,
-    private alertCtrl: AlertController
-  ) {
-    this.travelForm = this.fb.group({
-      description: ['', Validators.required],
-      type: ['', Validators.required],
-      state: ['', Validators.required],
-      startAt: [''],
-      endAt: ['']
-    });
-  }
+    private alertCtrl: AlertController,
+    private router: Router
+  ) {}
 
-  async onSubmit() {
-    const loading = await this.loadingCtrl.create({ message: 'A criar viagem...' });
+  async saveTravel() {
+    const loading = await this.loadingCtrl.create({ message: 'A guardar viagem...' });
     await loading.present();
 
-    const data = {
-      ...this.travelForm.value,
-      startAt: this.travelForm.value.startAt ? new Date(this.travelForm.value.startAt) : null,
-      endAt: this.travelForm.value.endAt ? new Date(this.travelForm.value.endAt) : null,
-      createdBy: 'twintravels@demo' // podes adaptar este valor
-    };
-
-    this.http.post(this.apiUrl, data).subscribe({
+    this.travelService.createTravel(this.travel).subscribe({
       next: async () => {
         await loading.dismiss();
-        const toast = await this.toastCtrl.create({ message: 'Viagem criada com sucesso!', duration: 2000, color: 'success' });
-        toast.present();
-        this.travelForm.reset();
+        const toast = await this.toastCtrl.create({ message: 'Viagem guardada com sucesso!', duration: 2000, color: 'success' });
+        await toast.present();
+        this.router.navigateByUrl('/travels-list');
       },
       error: async (err) => {
         await loading.dismiss();
         const alert = await this.alertCtrl.create({
           header: 'Erro',
-          message: 'Não foi possível criar a viagem.',
+          message: 'Erro ao guardar viagem. Tenta novamente.',
           buttons: ['OK']
         });
-        alert.present();
+        await alert.present();
       }
     });
   }

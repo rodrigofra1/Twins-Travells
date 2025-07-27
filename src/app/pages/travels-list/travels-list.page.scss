@@ -1,0 +1,20 @@
+.priority-high {
+  --background: RED; 
+  border-left: 6px solid red;
+}
+
+.priority-normal {
+  --background: orange; 
+  border-left: 6px solid orange;
+}
+
+.priority-low {
+  --background: green; 
+  border-left: 6px solid green;
+}
+
+.material-symbols-outlined {
+  font-size: 24px;
+  vertical-align: middle;
+  color: white;
+}
