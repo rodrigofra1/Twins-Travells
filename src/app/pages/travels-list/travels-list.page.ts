@@ -6,6 +6,8 @@ import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms'; 
 import { CommentModalComponent } from '../../comment-modal.component'; 
 import { ModalController } from '@ionic/angular';
+import { HttpClient } from '@angular/common/http';
+
 
 @Component({
   selector: 'app-travels-list',
@@ -25,7 +27,8 @@ export class TravelsListPage implements OnInit {
     private travelService: TravelService,
     private loadingCtrl: LoadingController,
     private toastCtrl: ToastController,
-    private modalCtrl: ModalController
+    private modalCtrl: ModalController,
+    private http: HttpClient
   ) {}
 
   async ngOnInit() {
@@ -66,13 +69,9 @@ export class TravelsListPage implements OnInit {
 
   orderByPriority() {
     if (this.priorityOrder === 'asc') {
-      this.filteredTravels.sort((a, b) => {
-        return this.priorityValue(a.type) - this.priorityValue(b.type);
-      });
+      this.filteredTravels.sort((a, b) => this.priorityValue(a.type) - this.priorityValue(b.type));
     } else if (this.priorityOrder === 'desc') {
-      this.filteredTravels.sort((a, b) => {
-        return this.priorityValue(b.type) - this.priorityValue(a.type);
-      });
+      this.filteredTravels.sort((a, b) => this.priorityValue(b.type) - this.priorityValue(a.type));
     }
   }
 
@@ -87,14 +86,10 @@ export class TravelsListPage implements OnInit {
 
   getPriorityColor(type?: string): string {
     switch(type) {
-      case 'high':
-        return 'priority-high';
-      case 'normal':
-        return 'priority-normal';
-      case 'low':   
-        return 'priority-low';
-      default:
-        return '';
+      case 'high': return 'priority-high';
+      case 'normal': return 'priority-normal';
+      case 'low': return 'priority-low';
+      default: return '';
     }
   }
 
@@ -109,7 +104,6 @@ export class TravelsListPage implements OnInit {
     });
     modal.onDidDismiss().then(({ data }) => {
       if (data) {
-        
       }
     });
     return await modal.present();
@@ -118,13 +112,29 @@ export class TravelsListPage implements OnInit {
   deleteTravel(id: string) {
     if (confirm('Tem certeza que quer eliminar esta viagem?')) {
       this.travelService.deleteTravel(id).subscribe({
-        next: () => {
-          this.loadTravels();
-        },
-        error: () => {
-          alert('Erro ao eliminar a viagem.');
-        }
+        next: () => this.loadTravels(),
+        error: () => alert('Erro ao eliminar a viagem.')
       });
     }
   }
+
+ toggleTravelState(travel: Travel) {
+  const newState: 'to-do' | 'done' = travel.state === 'to-do' ? 'done' : 'to-do';
+
+  this.travelService.updateTravelState(travel.id!, newState).subscribe({
+    next: (updatedTravel: Travel) => {
+      travel.state = updatedTravel.state;
+      console.log(`Viagem ${travel.id} atualizada para: ${updatedTravel.state}`);
+
+      this.applyFilter();
+    },
+    error: (err: any) => {
+      console.error('Erro ao atualizar o estado da viagem:', err);
+    }
+  });
+}
+
+
+
+
 }

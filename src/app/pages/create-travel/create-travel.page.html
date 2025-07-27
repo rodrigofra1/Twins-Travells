@@ -21,11 +21,7 @@
     </ion-item>
 
     <ion-item>
-      <ion-label>Estado</ion-label>
-      <ion-select name="state" [(ngModel)]="travel.state" required>
-        <ion-select-option value="to-do">To-Do</ion-select-option>
-        <ion-select-option value="done">Done</ion-select-option>
-      </ion-select>
+      <ion-label>Estado - To Do</ion-label>
     </ion-item>
 
     <ion-item>
@@ -38,25 +34,6 @@
       <ion-datetime presentation="date" [(ngModel)]="travel.endAt"></ion-datetime>
     </ion-item>
 
-    <ion-item>
-      <ion-label position="stacked">Criado por</ion-label>
-      <ion-input [(ngModel)]="travel.createdBy"></ion-input>
-    </ion-item>
-
-    <ion-item>
-      <ion-label position="stacked">Prop1</ion-label>
-      <ion-input [(ngModel)]="travel.prop1"></ion-input>
-    </ion-item>
-
-    <ion-item>
-      <ion-label position="stacked">Prop2</ion-label>
-      <ion-input [(ngModel)]="travel.prop2"></ion-input>
-    </ion-item>
-
-    <ion-item>
-      <ion-label position="stacked">Prop3</ion-label>
-      <ion-input [(ngModel)]="travel.prop3"></ion-input>
-    </ion-item>
   </ion-list>
 
 
